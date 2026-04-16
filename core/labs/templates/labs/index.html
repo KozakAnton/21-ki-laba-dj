@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="uk">
-<head><title>Головна</title></head>
-<body>
-    <h1>{{ title }}</h1>
-    <p>{{ content }}</p>
-    <nav>
-        <ul>
-            <li><a href="{% url 'about' %}">Про проект (Лаба 1)</a></li>
-        </ul>
-    </nav>
-</body>
+{% extends 'labs/base.html' %}
+
+{% block content %}
+    <h1>Наші товари</h1>
+    <div class="product-grid">
+        {% for product in products %}
+            <div class="product-card">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description|truncatewords:10 }}</p>
+                <p><strong>Ціна: {{ product.price }} грн</strong></p>
+                <button>Купити</button>
+            </div>
+        {% empty %}
+            <p>Товарів поки немає.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
 </html>

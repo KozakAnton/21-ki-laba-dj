@@ -1,0 +1,31 @@
+{% extends 'labs/base.html' %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <table border="1" style="width:100%; border-collapse: collapse; margin-top: 20px;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th style="padding: 10px;">Ім'я покупця</th>
+                <th>Товар</th>
+                <th>Кількість</th>
+                <th>Дата замовлення</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td style="padding: 10px;">{{ order.customer_name }}</td>
+                <td style="text-align: center;">{{ order.product.name }}</td>
+                <td style="text-align: center;">{{ order.quantity }}</td>
+                <td style="text-align: center;">{{ order.created_at|date:"d.m.Y H:i" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align: center; padding: 20px;">Замовлень ще немає.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <a href="{% url 'index' %}">← Назад до магазину</a>
+{% endblock %}

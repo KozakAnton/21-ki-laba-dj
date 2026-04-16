@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        header { background: #000; color: #fff; padding: 1rem; }
+        nav a { color: #fff; margin-right: 15px; text-decoration: none; }
+        footer { background: #222; color: #bbb; padding: 2rem; margin-top: auto; text-align: center; }
+        .container { padding: 20px; flex: 1; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .product-card { border: 1px solid #ddd; padding: 10px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+
+            <strong>STREETHOUSE</strong> |
+
+            <a href="{% url 'index' %}">Головна</a>
+
+            <a href="{% url 'orders' %}">Замовлення</a> {% for cat in categories %}
+
+            <a href="#">{{ cat.name }}</a>
+
+            {% endfor %}
+
+            <a href="{% url 'about' %}">Про проект</a>
+</nav>
+    </header>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Streethouse Clothing. Всі права захищені.</p>
+        <p>Контакти: info@streethouse.pp.ua | Питання та відповіді | Доставка</p>
+    </footer>
+</body>
+</html>

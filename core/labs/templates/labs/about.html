@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="uk">
-<head><title>Про проект</title></head>
-<body>
+{% extends 'labs/base.html' %}
+
+{% block content %}
     <h1>{{ title }}</h1>
-    <p>{{ content }}</p>
+    <p>Це сайт магазину вуличного одягу STREETHOUSE, створений в межах курсу Django.</p>
     <a href="{% url 'index' %}">Повернутися на головну</a>
-</body>
+{% endblock %}
 </html>
