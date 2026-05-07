@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'labs/base.html' %}
+
+{% block content %}
+<div class="container" style="padding: 60px 10%; background-color: #000; min-height: 80vh;">
+    <div style="display: flex; flex-wrap: wrap; gap: 50px;">
+
+        <div style="flex: 1; min-width: 300px;">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                     style="width: 100%; border-radius: 15px; border: 1px solid #333; box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);">
+            {% endif %}
+        </div>
+
+        <div style="flex: 1; min-width: 300px;">
+            <nav style="margin-bottom: 20px; font-size: 0.9rem; color: #666;">
+                <a href="/" style="color: #666; text-decoration: none;">Головна</a> /
+                <a href="{% url 'category_detail' product.category.id %}" style="color: #a855f7; text-decoration: none;">{{ product.category.name }}</a>
+            </nav>
+
+            <h1 style="font-size: 2.5rem; margin-bottom: 10px; text-transform: uppercase;">{{ product.name }}</h1>
+            <p style="color: #a855f7; font-size: 2rem; font-weight: bold; margin-bottom: 30px;">{{ product.price }} грн</p>
+
+            <div style="border-top: 1px solid #222; padding-top: 20px; margin-bottom: 40px;">
+                <h4 style="color: #666; text-transform: uppercase; margin-bottom: 15px;">Опис:</h4>
+                <p style="line-height: 1.6; color: #ccc;">{{ product.description }}</p>
+            </div>
+
+            <button style="background: #a855f7; color: #fff; border: none; padding: 15px 40px; font-size: 1.1rem;
+                           font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; width: 100%;"
+                    onmouseover="this.style.background='#7c3aed'; this.style.boxShadow='0 0 15px #a855f7'"
+                    onmouseout="this.style.background='#a855f7'; this.style.boxShadow='none'">
+                ДОДАТИ В КОШИК
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+</html>

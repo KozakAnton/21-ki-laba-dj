@@ -1,0 +1,270 @@
+/* Основні налаштування кольорів */
+:root {
+    --bg-black: #050505;
+    --card-bg: #111111;
+    --accent-purple: #a855f7; /* Твій фіолетовий */
+    --text-white: #ffffff;
+    --text-grey: #a0a0a0;
+    --glow: 0 0 15px rgba(168, 85, 247, 0.4);
+}
+
+body {
+    background-color: var(--bg-black);
+    color: var(--text-white);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Хедер/Навігація */
+nav {
+    background-color: rgba(0, 0, 0, 0.95);
+    padding: 20px 10%;
+    border-bottom: 1px solid #222;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+nav a {
+    color: var(--text-white);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: var(--accent-purple);
+    text-shadow: var(--glow);
+}
+
+/* Сітка товарів */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 40px 10%;
+}
+
+/* Картка товару */
+.product-card {
+    background: var(--card-bg);
+    border: 1px solid #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+.product-card:hover {
+    border-color: var(--accent-purple);
+    transform: translateY(-5px);
+    box-shadow: var(--glow);
+}
+
+.product-card img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    filter: grayscale(20%); /* Трохи приглушуємо кольори для стилю */
+    transition: 0.4s;
+}
+
+.product-card:hover img {
+    filter: grayscale(0%);
+}
+
+.product-info {
+    padding: 20px;
+    text-align: center;
+}
+
+.product-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.price {
+    color: var(--accent-purple);
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+/* Кнопки */
+.btn-buy {
+    background-color: var(--accent-purple);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    transition: 0.3s;
+    text-transform: uppercase;
+}
+
+.btn-buy:hover {
+    background-color: #7c3aed;
+    box-shadow: 0 0 20px var(--accent-purple);
+}
+/* Стилі для сторінки товару */
+.product-detail {
+    display: flex;
+    gap: 50px;
+    margin-top: 20px;
+}
+
+.product-image img {
+    width: 500px;
+    border-radius: 10px;
+}
+
+.product-code { color: #888; font-size: 0.9rem; }
+
+/* Квадратики розмірів */
+.size-options {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.size-radio { display: none; } /* Ховаємо стандартну крапку */
+
+.size-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border: 1px solid #ffffff;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    color: white;
+}
+
+/* Стиль при наведенні та виборі */
+.size-label:hover {
+    border-color: var(--accent-purple);
+}
+
+.size-radio:checked + .size-label {
+    background-color: white;
+    color: black;
+    border-color: white;
+}
+
+.btn-add-to-cart {
+    background: var(--accent-purple);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-weight: 900;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+}
+:root {
+    --bg-black: #050505;
+    --accent-purple: #a855f7;
+    --text-white: #ffffff;
+    --nav-bg: rgba(0, 0, 0, 0.9);
+    --card-bg: #111;
+}
+
+body {
+    font-family: 'Urbanist', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-black);
+    color: var(--text-white);
+}
+
+header {
+    background: var(--nav-bg);
+    padding: 1.5rem 5%;
+    border-bottom: 1px solid #1a1a1a;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav { display: flex; align-items: center; justify-content: space-between; }
+
+.logo { font-weight: 900; font-size: 1.8rem; letter-spacing: 3px; color: var(--text-white); text-decoration: none; }
+.logo span { color: var(--accent-purple); }
+
+.nav-links { display: flex; gap: 20px; }
+.nav-links a {
+    color: #ccc;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: 0.3s;
+}
+.nav-links a:hover { color: var(--accent-purple); text-shadow: 0 0 10px rgba(168, 85, 247, 0.5); }
+
+.container { padding: 40px 5%; flex: 1; }
+
+/* Сітка товарів */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    justify-content: center;
+}
+
+.product-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: 0.3s;
+    border: 1px solid #222;
+    text-align: center;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-purple);
+    box-shadow: 0 10px 20px rgba(168, 85, 247, 0.1);
+}
+
+.product-card img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+}
+
+.product-info { padding: 20px; }
+.product-info h3 { margin: 10px 0; font-size: 1.2rem; }
+.price { color: var(--accent-purple); font-weight: 900; font-size: 1.3rem; }
+
+.btn-buy {
+    background: var(--accent-purple);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+footer {
+    background: #0a0a0a;
+    color: #444;
+    padding: 3rem;
+    text-align: center;
+    border-top: 1px solid #1a1a1a;
+    font-size: 0.85rem;
+}
+footer strong { color: #888; }
