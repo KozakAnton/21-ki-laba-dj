@@ -28,3 +28,32 @@ def orders_list(request):
         'categories': categories,
     }
     return render(request, 'labs/orders.html', context)
+
+
+from django.shortcuts import get_object_or_404  # Переконайся, що get_object_or_404 імпортовано зверху
+
+
+def category_detail(request, pk):
+    # Отримуємо конкретну категорію
+    category = get_object_or_404(Category, pk=pk)
+    # Фільтруємо товари: тільки ті, що належать цій категорії
+    products = Product.objects.filter(category=category)
+    categories = Category.objects.all()  # Для навігаційного меню
+
+    context = {
+        'title': f'Категорія: {category.name}',
+        'category': category,
+        'products': products,
+        'categories': categories,
+    }
+    return render(request, 'labs/category.html', context)
+
+
+def product_detail(request, pk):
+    product = Product.objects.get(pk=pk)
+    categories = Category.objects.all()
+    return render(request, 'labs/product_detail.html', {
+        'product': product,
+        'categories': categories,
+        'title': product.name
+    })

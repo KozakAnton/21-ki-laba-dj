@@ -1,34 +1,28 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
-    <style>
-        body { font-family: sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
-        header { background: #000; color: #fff; padding: 1rem; }
-        nav a { color: #fff; margin-right: 15px; text-decoration: none; }
-        footer { background: #222; color: #bbb; padding: 2rem; margin-top: auto; text-align: center; }
-        .container { padding: 20px; flex: 1; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
-        .product-card { border: 1px solid #ddd; padding: 10px; border-radius: 8px; }
-    </style>
+
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'labs/style.css' %}">
 </head>
 <body>
     <header>
         <nav>
-
-            <strong>STREETHOUSE</strong> |
-
-            <a href="{% url 'index' %}">Головна</a>
-
-            <a href="{% url 'orders' %}">Замовлення</a> {% for cat in categories %}
-
-            <a href="#">{{ cat.name }}</a>
-
-            {% endfor %}
-
-            <a href="{% url 'about' %}">Про проект</a>
-</nav>
+            <a href="{% url 'index' %}" class="logo">STREET<span>HOUSE</span></a>
+            <div class="nav-links">
+                <a href="{% url 'index' %}">Головна</a>
+                {% for cat in categories %}
+                    <a href="{% url 'category_detail' cat.id %}">{{ cat.name }}</a>
+                {% endfor %}
+                <a href="{% url 'orders' %}">Замовлення</a>
+                <a href="{% url 'about' %}">Про проект</a>
+            </div>
+        </nav>
     </header>
 
     <div class="container">
@@ -36,8 +30,8 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Streethouse Clothing. Всі права захищені.</p>
-        <p>Контакти: info@streethouse.pp.ua | Питання та відповіді | Доставка</p>
+        <p>&copy; 2026 <strong>STREETHOUSE CLOTHING</strong>. Всі права захищені.</p>
+        <p>Контакти: info@streethouse.pp.ua | Доставка та оплата</p>
     </footer>
 </body>
 </html>

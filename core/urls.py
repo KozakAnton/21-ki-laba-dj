@@ -1,7 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # Оцей рядок активує адмінку
-    path('', include('labs.urls')),   # Твої лабораторні
+    path('admin/', admin.site.urls),
+    path('', include('labs.urls')),
 ]
+
+# Це дозволяє Django "бачити" папку media під час розробки
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

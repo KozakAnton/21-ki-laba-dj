@@ -1,20 +1,39 @@
-<!DOCTYPE html>
-<html lang="uk">
 {% extends 'labs/base.html' %}
 
 {% block content %}
-    <h1>Наші товари</h1>
-    <div class="product-grid">
-        {% for product in products %}
-            <div class="product-card">
+<h1 style="text-align: center; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 2px;">
+    Наші товари
+</h1>
+
+<div class="product-grid">
+    {% for product in products %}
+    <div class="product-card">
+        <a href="{% url 'product_detail' product.id %}" style="text-decoration: none; color: inherit;">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <div style="height: 350px; background: #222; display: flex; align-items: center; justify-content: center;">
+                    <span style="color: #666;">Немає фото</span>
+                </div>
+            {% endif %}
+
+            <div class="product-info">
                 <h3>{{ product.name }}</h3>
-                <p>{{ product.description|truncatewords:10 }}</p>
-                <p><strong>Ціна: {{ product.price }} грн</strong></p>
-                <button>Купити</button>
+                <p style="color: #888; font-size: 0.9rem; margin-bottom: 15px;">
+                    {{ product.description|truncatewords:10 }}
+                </p>
+                <p class="price">{{ product.price }} грн</p>
             </div>
-        {% empty %}
-            <p>Товарів поки немає.</p>
-        {% endfor %}
+        </a>
+
+        <div style="padding: 0 20px 20px 20px;">
+            <a href="{% url 'product_detail' product.id %}" style="text-decoration: none;">
+                <button class="btn-buy" style="margin-top: 0;">Вибрати розмір</button>
+            </a>
+        </div>
     </div>
+    {% empty %}
+    <p style="text-align: center; width: 100%; color: #666;">Товарів поки немає.</p>
+    {% endfor %}
+</div>
 {% endblock %}
-</html>
