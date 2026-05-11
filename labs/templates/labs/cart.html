@@ -1,0 +1,100 @@
+{% extends 'labs/base.html' %}
+
+{% block content %}
+
+<section class="cart-page">
+
+    <div class="cart-header">
+        <span>STREETHOUSE</span>
+        <h1>Кошик</h1>
+        <p>Перевір товари перед оформленням замовлення.</p>
+    </div>
+
+    {% if cart_items %}
+
+        <div class="cart-layout">
+
+            <div class="cart-items">
+
+                {% for item in cart_items %}
+                <div class="cart-item">
+
+                    <div class="cart-item-image">
+                        {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                        {% else %}
+                            <div class="cart-no-image">Немає фото</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="cart-item-info">
+                        <p class="cart-category">{{ item.product.category.name }}</p>
+                        <h3>{{ item.product.name }}</h3>
+
+                        <div class="cart-meta">
+                            <span>Розмір: <strong>{{ item.size }}</strong></span>
+                            <span>Кількість: <strong>{{ item.quantity }}</strong></span>
+                        </div>
+
+                        <p class="cart-item-price">
+                            {{ item.total }} грн
+                        </p>
+
+                        <a href="{% url 'remove_from_cart' item.key %}" class="cart-remove">
+                            Видалити
+                        </a>
+                    </div>
+
+                </div>
+                {% endfor %}
+
+            </div>
+
+            <div class="checkout-card">
+                <h2>Оформлення</h2>
+
+                <div class="cart-total">
+                    <span>Разом:</span>
+                    <strong>{{ total_sum }} грн</strong>
+                </div>
+
+                <form method="post" action="{% url 'checkout' %}" class="checkout-form">
+                    {% csrf_token %}
+
+                    <label>Ваше ім'я</label>
+                    {{ checkout_form.customer_name }}
+
+                    <label>Телефон</label>
+                    {{ checkout_form.phone }}
+
+                    <label>Email</label>
+                    {{ checkout_form.email }}
+
+                    <label>Адреса доставки</label>
+                    {{ checkout_form.address }}
+
+                    <button type="submit" class="btn-checkout">
+                        Оформити замовлення
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+    {% else %}
+
+        <div class="cart-empty">
+            <div class="cart-empty-icon">🛒</div>
+            <h2>Ваш кошик порожній</h2>
+            <p>Додайте товар у кошик, щоб оформити замовлення.</p>
+
+            <a href="{% url 'index' %}" class="cart-empty-btn">
+                Перейти до товарів
+            </a>
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}
