@@ -1,0 +1,113 @@
+{% extends 'labs/base.html' %}
+
+{% block content %}
+
+<section class="profile-page">
+
+    <div class="profile-header">
+        <span>STREETHOUSE</span>
+        <h1>Особистий кабінет</h1>
+        <p>Вітаємо, {{ user.username }}.</p>
+    </div>
+
+    <div class="profile-card">
+
+        <div class="profile-user-info">
+            <div>
+                <p>Логін</p>
+                <strong>{{ user.username }}</strong>
+            </div>
+
+            <div>
+                <p>Email</p>
+                <strong>{{ user.email }}</strong>
+            </div>
+
+            <div>
+                <p>Статус</p>
+                {% if user.is_staff or user.is_superuser %}
+                    <strong>Адміністратор</strong>
+                {% else %}
+                    <strong>Користувач</strong>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="profile-orders">
+        <h2>{{ profile_title }}</h2>
+
+        {% if orders %}
+            <div class="orders-table-wrapper">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Покупець</th>
+                            <th>Товар</th>
+                            <th>Розмір</th>
+                            <th>Кількість</th>
+                            <th>Сума</th>
+                            <th>Дата</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>
+                                <div class="customer-cell">
+                                    <span class="customer-avatar">
+                                        {{ order.customer_name|first|upper }}
+                                    </span>
+                                    <span>{{ order.customer_name }}</span>
+                                </div>
+                            </td>
+
+                            <td>{{ order.product.name }}</td>
+                            <td>{{ order.size }}</td>
+
+                            <td>
+                                <span class="quantity-badge">
+                                    {{ order.quantity }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="order-total-price">
+                                    {{ order.total_price }} грн
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="order-date">
+                                    {{ order.created_at|date:"d.m.Y H:i" }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="orders-total-box">
+                <span>Загальна сума:</span>
+                <strong>{{ total_sum }} грн</strong>
+            </div>
+
+        {% else %}
+            <div class="orders-empty">
+                <div class="orders-empty-icon">🛒</div>
+                <h2>Замовлень ще немає</h2>
+                <p>Ваші замовлення зʼявляться тут після оформлення покупки.</p>
+
+                <a href="{% url 'index' %}" class="orders-empty-btn">
+                    Перейти до товарів
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+</section>
+
+{% endblock %}

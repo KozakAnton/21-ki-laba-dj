@@ -1,0 +1,41 @@
+{% extends 'labs/base.html' %}
+
+{% block content %}
+
+<section class="auth-page">
+    <div class="auth-card">
+        <span>STREETHOUSE</span>
+        <h1>Реєстрація</h1>
+        <p>Створіть акаунт для перегляду історії замовлень.</p>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <label>Логін</label>
+            {{ form.username }}
+            {{ form.username.errors }}
+
+            <label>Email</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+
+            <label>Пароль</label>
+            {{ form.password1 }}
+            {{ form.password1.errors }}
+
+            <label>Повторіть пароль</label>
+            {{ form.password2 }}
+            {{ form.password2.errors }}
+
+            <button type="submit" class="auth-btn">Зареєструватись</button>
+        </form>
+
+        <div class="auth-links">
+            <a href="{% url 'login' %}">Вже маєте акаунт?</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'labs/base.html' %}
+
+{% block content %}
+
+<section class="auth-page">
+    <div class="auth-card">
+        <span>STREETHOUSE</span>
+        <h1>Увійти</h1>
+        <p>Увійдіть, щоб переглядати свої замовлення.</p>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <label>Логін</label>
+            {{ form.username }}
+            {{ form.username.errors }}
+
+            <label>Пароль</label>
+            {{ form.password }}
+            {{ form.password.errors }}
+
+            <button type="submit" class="auth-btn">Увійти</button>
+        </form>
+
+        <div class="auth-links">
+            <a href="{% url 'password_reset_request' %}">Забули пароль?</a>
+            <a href="{% url 'register' %}">Створити акаунт</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
