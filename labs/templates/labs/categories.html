@@ -1,0 +1,43 @@
+{% extends 'labs/base.html' %}
+
+{% block content %}
+
+<section class="categories-page">
+
+    <div class="categories-header">
+        <span>STREETHOUSE</span>
+        <h1>Усі категорії</h1>
+        <p>Оберіть категорію, щоб переглянути товари.</p>
+    </div>
+
+    <div class="categories-grid">
+        {% for cat in categories %}
+            <a href="{% url 'category_detail' cat.id %}" class="category-card-link">
+                <article class="category-card">
+                    <span class="category-card-label">Категорія</span>
+
+                    <h2 title="{{ cat.name }}">
+                        {{ cat.name|truncatechars:25 }}
+                    </h2>
+
+                    <p>
+                        Переглянути товари цієї категорії
+                    </p>
+
+                    <div class="category-card-bottom">
+                        <span>Відкрити</span>
+                        <strong>→</strong>
+                    </div>
+                </article>
+            </a>
+        {% empty %}
+            <div class="empty-products">
+                <h3>Категорій поки немає</h3>
+                <p>Додай категорії через адмін-панель Django.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+</section>
+
+{% endblock %}

@@ -11,27 +11,92 @@
     <link rel="stylesheet" href="{% static 'labs/style.css' %}">
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="{% url 'index' %}" class="logo">STREET<span>HOUSE</span></a>
-            <div class="nav-links">
-                <a href="{% url 'index' %}">Головна</a>
-                {% for cat in categories %}
-                    <a href="{% url 'category_detail' cat.id %}">{{ cat.name }}</a>
-                {% endfor %}
-                <a href="{% url 'orders' %}">Замовлення</a>
-                <a href="{% url 'about' %}">Про проект</a>
+
+    <header class="site-header">
+        <div class="header-inner">
+
+            <div class="header-left">
+                <a href="{% url 'index' %}" class="logo">
+                    STREET<span>HOUSE</span>
+                </a>
+
+                <a href="{% url 'about' %}" class="nav-link about-link">
+                    Про проект
+                </a>
             </div>
-        </nav>
+
+            <nav class="main-nav">
+                <a href="{% url 'index' %}" class="nav-link">
+                    Головна
+                </a>
+
+                <a href="{% url 'categories' %}" class="nav-link nav-categories">
+                    Усі категорії
+                </a>
+
+                <a href="{% url 'cart' %}" class="nav-link nav-cart">
+                    Кошик
+                </a>
+            </nav>
+
+            <div class="header-actions">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="header-btn header-btn-outline">
+                        Кабінет
+                    </a>
+
+                    <form method="post" action="{% url 'logout' %}" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="header-btn header-btn-main">
+                            Вийти
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="header-btn header-btn-outline">
+                        Увійти
+                    </a>
+
+                    <a href="{% url 'register' %}" class="header-btn header-btn-main">
+                        Реєстрація
+                    </a>
+                {% endif %}
+            </div>
+
+        </div>
     </header>
 
     <div class="container">
+
+        {% if messages %}
+            <div class="messages-box">
+                {% for message in messages %}
+                    <div class="site-message message-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         {% block content %}{% endblock %}
+
     </div>
 
     <footer>
+        <div class="footer-newsletter">
+            <h3>Підписка на розсилку</h3>
+            <p>Залиш email, щоб отримувати новини про нові дропи та акції.</p>
+
+            <form method="post" action="{% url 'newsletter_subscribe' %}" class="newsletter-form">
+                {% csrf_token %}
+                <input type="text" name="name" placeholder="Ваше ім'я">
+                <input type="email" name="email" placeholder="Ваш email" required>
+                <button type="submit">Підписатися</button>
+            </form>
+        </div>
+
         <p>&copy; 2026 <strong>STREETHOUSE CLOTHING</strong>. Всі права захищені.</p>
         <p>Контакти: info@streethouse.pp.ua | Доставка та оплата</p>
     </footer>
+
 </body>
 </html>

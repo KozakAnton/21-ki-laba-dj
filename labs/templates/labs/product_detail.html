@@ -1,34 +1,148 @@
-<!DOCTYPE html>
-<html lang="en">
-<{% extends 'labs/base.html' %}
+{% extends 'labs/base.html' %}
 
 {% block content %}
-<div class="product-detail">
-    <div class="product-image">
-        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-    </div>
 
-    <div class="product-info-side">
-        <span class="product-code">Код товару: {{ product.id }}49430</span>
-        <h1>{{ product.name|upper }}</h1>
-        <p class="detail-price">{{ product.price }} ₴</p>
+<section class="product-detail-page">
 
-        <div class="size-selector">
-            <p>Виберіть розмір:</p>
-            <div class="size-options">
-                {% for size in product.get_sizes_list %}
-                    <input type="radio" name="size" id="size-{{ size }}" value="{{ size }}" class="size-radio">
-                    <label for="size-{{ size }}" class="size-label">{{ size }}</label>
-                {% endfor %}
+    <div class="product-detail-card">
+
+        <div class="product-detail-left">
+
+            <div class="product-detail-image-box">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                    <div class="no-product-image">
+                        Фото відсутнє
+                    </div>
+                {% endif %}
             </div>
+
+            <div class="product-image-description">
+                <h4>Опис товару</h4>
+                <p>{{ product.description }}</p>
+            </div>
+
         </div>
 
-        <button class="btn-add-to-cart">Додати у кошик</button>
+        <div class="product-detail-info">
 
-        <div class="product-description">
-            <p>{{ product.description }}</p>
+            <div class="product-breadcrumbs">
+                <a href="{% url 'index' %}">Головна</a>
+                <span>/</span>
+                <a href="{% url 'category_detail' product.category.id %}">
+                    {{ product.category.name }}
+                </a>
+            </div>
+
+            <span class="product-code">
+                Код товару: SH-{{ product.id }}
+            </span>
+
+            <h1>{{ product.name|upper }}</h1>
+
+            <p class="detail-price">
+                {{ product.price }} ₴
+            </p>
+
+            <div class="product-rating-summary">
+                <div class="rating-stars">★</div>
+
+                {% if ratings_count > 0 %}
+                    <p>
+                        Середня оцінка:
+                        <strong>{{ average_rating|floatformat:1 }}/5</strong>
+                        <span>({{ ratings_count }} оцінок)</span>
+                    </p>
+                {% else %}
+                    <p>Цей товар ще не оцінювали.</p>
+                {% endif %}
+            </div>
+
+            <form method="post" action="{% url 'add_to_cart' product.id %}" class="cart-add-form">
+                {% csrf_token %}
+
+                <div class="size-selector">
+                    <p>Виберіть розмір:</p>
+
+                    <div class="size-options">
+                        {% for size in product.get_sizes_list %}
+                            <input
+                                type="radio"
+                                name="size"
+                                id="size-{{ size }}"
+                                value="{{ size }}"
+                                class="size-radio"
+                                required
+                            >
+                            <label for="size-{{ size }}" class="size-label">
+                                {{ size }}
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="quantity-box">
+                    <label for="quantity">Кількість:</label>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="99">
+                </div>
+
+                <button type="submit" class="btn-add-to-cart">
+                    Додати у кошик
+                </button>
+            </form>
+
+            <div class="rating-form-box">
+                <h3>Оцінити товар</h3>
+
+                <form method="post" action="{% url 'add_rating' product.id %}" class="rating-form">
+                    {% csrf_token %}
+
+                    <input
+                        type="text"
+                        name="customer_name"
+                        class="form-input"
+                        placeholder="Ваше ім'я"
+                        required
+                    >
+
+                    <div class="rating-radio-list">
+                        <label>
+                            <input type="radio" name="score" value="1" required>
+                            <span>1</span>
+                        </label>
+
+                        <label>
+                            <input type="radio" name="score" value="2">
+                            <span>2</span>
+                        </label>
+
+                        <label>
+                            <input type="radio" name="score" value="3">
+                            <span>3</span>
+                        </label>
+
+                        <label>
+                            <input type="radio" name="score" value="4">
+                            <span>4</span>
+                        </label>
+
+                        <label>
+                            <input type="radio" name="score" value="5">
+                            <span>5</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-rating-submit">
+                        Надіслати оцінку
+                    </button>
+                </form>
+            </div>
+
         </div>
+
     </div>
-</div>
+
+</section>
+
 {% endblock %}
-</html>

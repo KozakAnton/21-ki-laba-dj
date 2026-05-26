@@ -1,10 +1,142 @@
-<!DOCTYPE html>
-<html lang="uk">
 {% extends 'labs/base.html' %}
 
 {% block content %}
-    <h1>{{ title }}</h1>
-    <p>Це сайт магазину вуличного одягу STREETHOUSE, створений в межах курсу Django.</p>
-    <a href="{% url 'index' %}">Повернутися на головну</a>
+
+<section class="about-page">
+
+    <div class="about-hero">
+        <span class="about-label">STREETHOUSE PROJECT</span>
+
+        <h1>
+            Про проект <span>STREETHOUSE</span>
+        </h1>
+
+        <p>
+            STREETHOUSE — це навчальний Django-проєкт інтернет-магазину вуличного одягу.
+            На сайті реалізовано каталог товарів, категорії, кошик, замовлення,
+            реєстрацію користувачів, особистий кабінет, оцінки товарів та підписку на розсилку.
+        </p>
+
+        <div class="about-buttons">
+            <a href="{% url 'index' %}" class="about-btn about-btn-main">
+                Перейти до товарів
+            </a>
+
+            <a href="{% url 'categories' %}" class="about-btn about-btn-outline">
+                Усі категорії
+            </a>
+        </div>
+    </div>
+
+    <div class="about-stats">
+        <div class="about-stat-card">
+            <strong>{{ products_count }}</strong>
+            <span>Товарів на сайті</span>
+        </div>
+
+        <div class="about-stat-card">
+            <strong>{{ categories_count }}</strong>
+            <span>Категорій</span>
+        </div>
+
+        <div class="about-stat-card">
+            <strong>{{ orders_count }}</strong>
+            <span>Замовлень</span>
+        </div>
+    </div>
+
+    <div class="about-section">
+        <div class="about-section-heading">
+            <span>Функціонал</span>
+            <h2>Що реалізовано на сайті</h2>
+        </div>
+
+        <div class="about-features-grid">
+
+            <div class="about-feature-card">
+                <div class="about-icon">🛍️</div>
+                <h3>Каталог товарів</h3>
+                <p>
+                    Товари розподілені за категоріями. Користувач може переглядати товари,
+                    відкривати детальну сторінку та вибирати розмір.
+                </p>
+            </div>
+
+            <div class="about-feature-card">
+                <div class="about-icon">🛒</div>
+                <h3>Кошик</h3>
+                <p>
+                    Реалізовано додавання товарів у кошик, вибір розміру, кількості
+                    та оформлення замовлення.
+                </p>
+            </div>
+
+            <div class="about-feature-card">
+                <div class="about-icon">👤</div>
+                <h3>Особистий кабінет</h3>
+                <p>
+                    Користувач бачить тільки свої замовлення, а адміністратор має доступ
+                    до всіх замовлень магазину.
+                </p>
+            </div>
+
+            <div class="about-feature-card">
+                <div class="about-icon">⭐</div>
+                <h3>Оцінка товарів</h3>
+                <p>
+                    На сторінці товару можна поставити оцінку, а також переглянути
+                    середній бал товару.
+                </p>
+            </div>
+
+            <div class="about-feature-card">
+                <div class="about-icon">📩</div>
+                <h3>Розсилка</h3>
+                <p>
+                    У футері сайту є форма підписки на інформаційні листи про нові дропи
+                    та акції.
+                </p>
+            </div>
+
+            <div class="about-feature-card">
+                <div class="about-icon">🔐</div>
+                <h3>Авторизація</h3>
+                <p>
+                    Реалізовано реєстрацію, вхід, вихід та відновлення пароля через
+                    тимчасовий код.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="about-tech-section">
+        <div class="about-section-heading">
+            <span>Технології</span>
+            <h2>На чому створено проект</h2>
+        </div>
+
+        <div class="about-tech-list">
+            <span>Django</span>
+            <span>Python</span>
+            <span>SQLite</span>
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>Django Admin</span>
+            <span>Sessions</span>
+            <span>Authentication</span>
+        </div>
+    </div>
+
+    <div class="about-final-card">
+        <h2>Ідея проекту</h2>
+        <p>
+            Мета STREETHOUSE — показати, як за допомогою Django можна створити
+            повноцінний сайт інтернет-магазину: від моделей бази даних і адмін-панелі
+            до кошика, замовлень та особистого кабінету користувача.
+        </p>
+    </div>
+
+</section>
+
 {% endblock %}
-</html>

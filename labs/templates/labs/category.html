@@ -1,35 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
 {% extends 'labs/base.html' %}
 
 {% block content %}
-<div class="container" style="padding: 40px 10%; background-color: #000;">
-    <h1 style="color: #a855f7; text-transform: uppercase; letter-spacing: 3px; border-left: 4px solid #a855f7; padding-left: 15px; margin-bottom: 40px;">
-        {{ category.name }}
-    </h1>
 
-    <div class="product-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;">
+<section class="category-page">
+
+    <div class="category-header">
+        <span>Категорія</span>
+        <h1 title="{{ category.name }}">
+            {{ category.name|truncatechars:35 }}
+        </h1>
+        <p>Товари з обраної категорії STREETHOUSE.</p>
+    </div>
+
+    <div class="category-product-grid">
         {% for product in products %}
-        <div class="product-card" style="background: #111; border: 1px solid #222; border-radius: 12px; overflow: hidden; transition: 0.3s;">
-            <a href="{% url 'product_detail' product.id %}" style="text-decoration: none; color: inherit;">
+
+        <article class="product-card">
+
+            <a href="{% url 'product_detail' product.id %}" class="product-image-link">
                 {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 100%; height: 350px; object-fit: cover;">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
                 {% else %}
-                    <div style="width: 100%; height: 350px; background: #222; display: flex; align-items: center; justify-content: center;">
-                        <span style="color: #444;">Фото відсутнє</span>
+                    <div class="product-no-image">
+                        Немає фото
                     </div>
                 {% endif %}
-
-                <div style="padding: 20px; text-align: center;">
-                    <h3 style="margin: 0 0 10px 0; font-size: 1.2rem;">{{ product.name }}</h3>
-                    <p style="color: #a855f7; font-weight: bold; font-size: 1.3rem; margin: 0;">{{ product.price }} грн</p>
-                </div>
             </a>
-        </div>
+
+            <div class="product-info">
+                <div>
+                    <p class="product-category-name">
+                        {{ product.category.name|truncatechars:22 }}
+                    </p>
+
+                    <h3>
+                        <a href="{% url 'product_detail' product.id %}">
+                            {{ product.name|truncatechars:55 }}
+                        </a>
+                    </h3>
+
+                    <p class="product-short-description">
+                        {{ product.description|truncatewords:14 }}
+                    </p>
+                </div>
+
+                <div class="product-card-bottom">
+                    <p class="price">{{ product.price }} грн</p>
+
+                    <a href="{% url 'product_detail' product.id %}" class="btn-buy">
+                        Вибрати розмір
+                    </a>
+                </div>
+            </div>
+
+        </article>
+
         {% empty %}
-        <p style="color: #666; text-align: center; grid-column: 1/-1;">У цій категорії поки немає товарів.</p>
+            <div class="empty-products">
+                <h3>У цій категорії поки немає товарів</h3>
+                <p>Додай товари до цієї категорії через адмін-панель Django.</p>
+            </div>
         {% endfor %}
     </div>
-</div>
+
+</section>
+
 {% endblock %}
-</html>

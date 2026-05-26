@@ -1,39 +1,106 @@
 {% extends 'labs/base.html' %}
 
 {% block content %}
-<h1 style="text-align: center; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 2px;">
-    Наші товари
-</h1>
 
-<div class="product-grid">
-    {% for product in products %}
-    <div class="product-card">
-        <a href="{% url 'product_detail' product.id %}" style="text-decoration: none; color: inherit;">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-            {% else %}
-                <div style="height: 350px; background: #222; display: flex; align-items: center; justify-content: center;">
-                    <span style="color: #666;">Немає фото</span>
-                </div>
-            {% endif %}
+<section class="home-hero">
+    <div class="home-hero-content centered-hero-content">
+        <span class="hero-label">Urban clothing store</span>
 
-            <div class="product-info">
-                <h3>{{ product.name }}</h3>
-                <p style="color: #888; font-size: 0.9rem; margin-bottom: 15px;">
-                    {{ product.description|truncatewords:10 }}
-                </p>
-                <p class="price">{{ product.price }} грн</p>
-            </div>
-        </a>
+        <h1>
+            STREET<span>HOUSE</span>
+        </h1>
 
-        <div style="padding: 0 20px 20px 20px;">
-            <a href="{% url 'product_detail' product.id %}" style="text-decoration: none;">
-                <button class="btn-buy" style="margin-top: 0;">Вибрати розмір</button>
-            </a>
+        <p>
+            Магазин вуличного одягу з темною естетикою, oversize силуетами
+            та акцентом на стиль, комфорт і характер.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#products" class="hero-btn hero-btn-main">Дивитися товари</a>
+            <a href="{% url 'about' %}" class="hero-btn hero-btn-outline">Про проект</a>
         </div>
     </div>
-    {% empty %}
-    <p style="text-align: center; width: 100%; color: #666;">Товарів поки немає.</p>
-    {% endfor %}
-</div>
+</section>
+
+        <div class="hero-card-content">
+            <span>New drop</span>
+            <h2>Streetwear collection</h2>
+            <p>Футболки, шорти, худі та базові речі для щоденного образу.</p>
+        </div>
+    </div>
+</section>
+
+
+{% if categories %}
+<section class="category-strip">
+    <h2>Категорії</h2>
+
+    <div class="category-list">
+        {% for cat in categories %}
+            <a href="{% url 'category_detail' cat.id %}" class="category-pill">
+                {{ cat.name }}
+            </a>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+
+<section class="home-products-section" id="products">
+    <div class="section-heading">
+        <span>Catalog</span>
+        <h2>Наші товари</h2>
+        <p>Обери річ, яка підкреслить твій стиль.</p>
+    </div>
+
+    <div class="product-grid">
+        {% for product in products %}
+        <article class="product-card">
+
+            <a href="{% url 'product_detail' product.id %}" class="product-image-link">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                    <div class="product-no-image">
+                        Немає фото
+                    </div>
+                {% endif %}
+            </a>
+
+            <div class="product-info">
+                <div>
+                    <p class="product-category-name">
+                        {{ product.category.name }}
+                    </p>
+
+                    <h3>
+                        <a href="{% url 'product_detail' product.id %}">
+                            {{ product.name }}
+                        </a>
+                    </h3>
+
+                    <p class="product-short-description">
+                        {{ product.description|truncatewords:14 }}
+                    </p>
+                </div>
+
+                <div class="product-card-bottom">
+                    <p class="price">{{ product.price }} грн</p>
+
+                    <a href="{% url 'product_detail' product.id %}" class="btn-buy">
+                        Вибрати розмір
+                    </a>
+                </div>
+            </div>
+
+        </article>
+        {% empty %}
+            <div class="empty-products">
+                <h3>Товарів поки немає</h3>
+                <p>Додай товари через адмін-панель Django.</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
 {% endblock %}

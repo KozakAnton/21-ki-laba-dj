@@ -14,13 +14,26 @@
 
         <div class="profile-user-info">
             <div>
+                <p>ID користувача</p>
+                <strong>{{ user.id }}</strong>
+            </div>
+
+            <div>
                 <p>Логін</p>
-                <strong>{{ user.username }}</strong>
+                <strong title="{{ user.username }}">
+                    {{ user.username|truncatechars:30 }}
+                </strong>
             </div>
 
             <div>
                 <p>Email</p>
-                <strong>{{ user.email }}</strong>
+                <strong title="{{ user.email }}">
+                    {% if user.email %}
+                        {{ user.email|truncatechars:35 }}
+                    {% else %}
+                        Email не вказано
+                    {% endif %}
+                </strong>
             </div>
 
             <div>
@@ -38,56 +51,105 @@
     <div class="profile-orders">
         <h2>{{ profile_title }}</h2>
 
-        {% if orders %}
-            <div class="orders-table-wrapper">
-                <table class="orders-table">
-                    <thead>
-                        <tr>
-                            <th>Покупець</th>
-                            <th>Товар</th>
-                            <th>Розмір</th>
-                            <th>Кількість</th>
-                            <th>Сума</th>
-                            <th>Дата</th>
-                        </tr>
-                    </thead>
+        {% if grouped_orders %}
 
-                    <tbody>
-                        {% for order in orders %}
-                        <tr>
-                            <td>
-                                <div class="customer-cell">
-                                    <span class="customer-avatar">
-                                        {{ order.customer_name|first|upper }}
-                                    </span>
-                                    <span>{{ order.customer_name }}</span>
+            <div class="orders-list">
+
+                {% for order_group in grouped_orders %}
+                    <div class="order-group-card">
+
+                        <div class="order-group-header">
+                            <div>
+                                <span class="order-number">
+                                    Замовлення #{{ order_group.order_number }}
+                                </span>
+
+                                <h3 title="{{ order_group.customer_name }}">
+                                    {{ order_group.customer_name|truncatechars:30 }}
+                                </h3>
+                            </div>
+
+                            <div class="order-group-date">
+                                {{ order_group.created_at|date:"d.m.Y H:i" }}
+                            </div>
+                        </div>
+
+                        <div class="order-group-body">
+
+                            <div class="order-group-section">
+                                <p>Товари</p>
+
+                                <ul class="order-products-list">
+                                    {% for item in order_group.items %}
+                                        <li>
+                                            <strong title="{{ item.product.name }}">
+                                                {{ item.product.name|truncatechars:45 }}
+                                            </strong>
+
+                                            <span>
+                                                Розмір: {{ item.size|default:"—" }},
+                                                Кількість: {{ item.quantity }},
+                                                Сума: {{ item.total_price }} грн
+                                            </span>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
+                            <div class="order-group-info">
+                                <div>
+                                    <p>Покупець</p>
+                                    <strong title="{{ order_group.customer_name }}">
+                                        {{ order_group.customer_name|truncatechars:25 }}
+                                    </strong>
                                 </div>
-                            </td>
 
-                            <td>{{ order.product.name }}</td>
-                            <td>{{ order.size }}</td>
+                                <div>
+                                    <p>Телефон</p>
+                                    <strong>
+                                        {{ order_group.phone|default:"—" }}
+                                    </strong>
+                                </div>
 
-                            <td>
-                                <span class="quantity-badge">
-                                    {{ order.quantity }}
-                                </span>
-                            </td>
+                                <div>
+                                    <p>Email</p>
+                                    <strong title="{{ order_group.email }}">
+                                        {{ order_group.email|default:"—"|truncatechars:30 }}
+                                    </strong>
+                                </div>
 
-                            <td>
-                                <span class="order-total-price">
-                                    {{ order.total_price }} грн
-                                </span>
-                            </td>
+                                <div>
+                                    <p>Кількість</p>
+                                    <strong>
+                                        {{ order_group.total_quantity }}
+                                    </strong>
+                                </div>
 
-                            <td>
-                                <span class="order-date">
-                                    {{ order.created_at|date:"d.m.Y H:i" }}
-                                </span>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                                <div>
+                                    <p>Загальна сума</p>
+                                    <strong class="order-total-price">
+                                        {{ order_group.total_sum }} грн
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <div class="order-address-box">
+                                <p>Адреса доставки</p>
+
+                                <strong title="{{ order_group.address }}">
+                                    {% if order_group.address %}
+                                        {{ order_group.address|truncatechars:90 }}
+                                    {% else %}
+                                        Адресу не вказано
+                                    {% endif %}
+                                </strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+                {% endfor %}
+
             </div>
 
             <div class="orders-total-box">
@@ -96,16 +158,24 @@
             </div>
 
         {% else %}
+
             <div class="orders-empty">
                 <div class="orders-empty-icon">🛒</div>
                 <h2>Замовлень ще немає</h2>
-                <p>Ваші замовлення зʼявляться тут після оформлення покупки.</p>
+
+                {% if user.is_staff or user.is_superuser %}
+                    <p>У магазині ще немає оформлених замовлень.</p>
+                {% else %}
+                    <p>Ваші замовлення зʼявляться тут після оформлення покупки.</p>
+                {% endif %}
 
                 <a href="{% url 'index' %}" class="orders-empty-btn">
                     Перейти до товарів
                 </a>
             </div>
+
         {% endif %}
+
     </div>
 
 </section>

@@ -1,31 +1,136 @@
 {% extends 'labs/base.html' %}
 
 {% block content %}
-    <h1>{{ title }}</h1>
-    <table border="1" style="width:100%; border-collapse: collapse; margin-top: 20px;">
-        <thead>
-            <tr style="background-color: #f2f2f2;">
-                <th style="padding: 10px;">Ім'я покупця</th>
-                <th>Товар</th>
-                <th>Кількість</th>
-                <th>Дата замовлення</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for order in orders %}
-            <tr>
-                <td style="padding: 10px;">{{ order.customer_name }}</td>
-                <td style="text-align: center;">{{ order.product.name }}</td>
-                <td style="text-align: center;">{{ order.quantity }}</td>
-                <td style="text-align: center;">{{ order.created_at|date:"d.m.Y H:i" }}</td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4" style="text-align: center; padding: 20px;">Замовлень ще немає.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <br>
-    <a href="{% url 'index' %}">← Назад до магазину</a>
+
+<section class="orders-page">
+
+    <div class="orders-header">
+        <span>STREETHOUSE</span>
+        <h1>{{ title }}</h1>
+        <p>
+            {% if user.is_staff or user.is_superuser %}
+                Тут відображаються всі оформлені замовлення магазину.
+            {% else %}
+                Тут відображаються тільки ваші замовлення.
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="orders-card">
+
+        {% if grouped_orders %}
+
+            <div class="orders-list">
+
+                {% for order_group in grouped_orders %}
+                    <div class="order-group-card">
+
+                        <div class="order-group-header">
+                            <div>
+                                <span class="order-number">
+                                    Замовлення #{{ order_group.order_number }}
+                                </span>
+
+                                <h3>
+                                    {{ order_group.customer_name|truncatechars:30 }}
+                                </h3>
+                            </div>
+
+                            <div class="order-group-date">
+                                {{ order_group.created_at|date:"d.m.Y H:i" }}
+                            </div>
+                        </div>
+
+                        <div class="order-group-body">
+
+                            <div class="order-group-section">
+                                <p>Товари</p>
+
+                                <ul class="order-products-list">
+                                    {% for item in order_group.items %}
+                                        <li>
+                                            <strong title="{{ item.product.name }}">
+                                                {{ item.product.name|truncatechars:45 }}
+                                            </strong>
+
+                                            <span>
+                                                Розмір: {{ item.size|default:"—" }},
+                                                Кількість: {{ item.quantity }},
+                                                Сума: {{ item.total_price }} грн
+                                            </span>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
+                            <div class="order-group-info">
+                                <div>
+                                    <p>Покупець</p>
+                                    <strong>{{ order_group.customer_name|truncatechars:25 }}</strong>
+                                </div>
+
+                                <div>
+                                    <p>Телефон</p>
+                                    <strong>{{ order_group.phone|default:"—" }}</strong>
+                                </div>
+
+                                <div>
+                                    <p>Email</p>
+                                    <strong>{{ order_group.email|default:"—"|truncatechars:30 }}</strong>
+                                </div>
+
+                                <div>
+                                    <p>Кількість</p>
+                                    <strong>{{ order_group.total_quantity }}</strong>
+                                </div>
+
+                                <div>
+                                    <p>Загальна сума</p>
+                                    <strong class="order-total-price">
+                                        {{ order_group.total_sum }} грн
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <div class="order-address-box">
+                                <p>Адреса доставки</p>
+                                <strong title="{{ order_group.address }}">
+                                    {% if order_group.address %}
+                                        {{ order_group.address|truncatechars:90 }}
+                                    {% else %}
+                                        Адресу не вказано
+                                    {% endif %}
+                                </strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            <div class="orders-total-box">
+                <span>Загальна сума замовлень:</span>
+                <strong>{{ total_orders_sum }} грн</strong>
+            </div>
+
+        {% else %}
+
+            <div class="orders-empty">
+                <div class="orders-empty-icon">🛒</div>
+                <h2>Замовлень ще немає</h2>
+                <p>Після оформлення покупки замовлення зʼявляться тут.</p>
+
+                <a href="{% url 'index' %}" class="orders-empty-btn">
+                    Перейти до товарів
+                </a>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
 {% endblock %}
